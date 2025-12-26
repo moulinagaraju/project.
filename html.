@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chakkavaripalem.in - Village Social Network</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --primary: #8a2be2;
+            --primary-dark: #7b1fa2;
+            --secondary: #4CAF50;
+            --accent: #FF9800;
+            --background: #fafafa;
+            --card-bg: #ffffff;
+            --text: #262626;
+            --text-secondary: #8e8e8e;
+            --border: #dbdbdb;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --gradient: linear-gradient(45deg, #8a2be2, #4CAF50);
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #f44336;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --primary: #9c4dff;
+            --primary-dark: #7b1fa2;
+            --secondary: #66bb6a;
+            --accent: #FFB74D;
+            --background: #121212;
+            --card-bg: #1e1e1e;
+            --text: #f5f5f5;
+            --text-secondary: #a8a8a8;
+            --border: #333333;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            --gradient: linear-gradient(45deg, #9c4dff, #66bb6a);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .search-bar {
+            flex: 0 1 400px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background-color: var(--background);
+            color: var(--text);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icons button, .nav-icons a {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-icons button:hover, .nav-icons a:hover {
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: flex;
+            margin-top: 20px;
+            gap: 20px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .sidebar-section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-section h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-section h3 i {
+            color: var(--primary);
+        }
+
+        .user-profile-card {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .user-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-role {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(138, 43, 226, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-links a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .badge {
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        .event-highlight {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 152, 0, 0.1);
+            border-left: 3px solid var(--accent);
+        }
+
+        .event-date {
+            background-color: var(--accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .event-date .month {
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .event-info h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .event-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Feed */
+        .feed {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .create-post-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .create-post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .create-post-header input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            background-color: var(--background);
+            color: var(--text);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .create-post-header input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .create-post-actions {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-button:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+            color: var(--primary);
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .post-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .post-user-info h4 {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .post-user-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .post-type-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+
+        .marketplace-badge {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--secondary);
+        }
+
+        .event-badge {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--accent);
+        }
+
+        .post-options {
+            position: relative;
+        }
+
+        .post-options button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .post-options-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            min-width: 150px;
+            z-index: 10;
+            display: none;
+        }
+
+        .post-options-menu.show {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-options-menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            color: var(--text);
+            font-size: 14px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .post-options-menu button:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+            color: var(--primary);
+        }
+
+        .post-options-menu button.delete {
+            color: var(--danger);
+        }
+
+        .post-media {
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+        }
+
+        .post-actions {
+            padding: 15px 20px 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .post-actions-left {
+            display: flex;
+            gap: 15px;
+        }
+
+        .post-actions button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .post-actions button:hover {
+            transform: scale(1.1);
+        }
+
+        .post-actions button.liked {
+            color: var(--danger);
+        }
+
+        .post-actions button.saved {
+            color: var(--accent);
+        }
+
+        .post-stats {
+            padding: 0 20px 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .post-caption {
+            padding: 0 20px 10px;
+        }
+
+        .post-caption a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .post-comments {
+            padding: 0 20px 15px;
+        }
+
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment:last-child {
+            margin-bottom: 0;
+        }
+
+        .comment-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+
+        .comment-header h5 {
+            font-size: 13px;
+        }
+
+        .comment-header span {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .comment-text {
+            font-size: 14px;
+        }
+
+        .add-comment {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .add-comment input {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background-color: var(--background);
+            color: var(--text);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .add-comment input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .add-comment button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .add-comment button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Marketplace Sidebar */
+        .marketplace-sidebar {
+            flex: 0 0 300px;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-left: 10px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2 {
+            font-size: 18px;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .marketplace-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .product-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .product-quantity {
+            margin-bottom: 10px;
+        }
+
+        .quantity-bar {
+            height: 6px;
+            background-color: var(--border);
+            border-radius: 3px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .quantity-fill {
+            height: 100%;
+            background-color: var(--secondary);
+            border-radius: 3px;
+        }
+
+        .quantity-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .product-seller {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .seller-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .seller-name {
+            font-size: 13px;
+        }
+
+        .contact-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .contact-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(138, 43, 226, 0.3);
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: var(--card-bg);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: var(--transition);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .admin-panel.open {
+            right: 0;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-section {
+            margin-bottom: 25px;
+        }
+
+        .admin-section h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--background);
+            color: var(--text);
+            margin-bottom: 10px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .admin-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 10px;
+        }
+
+        .admin-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .admin-btn.danger {
+            background-color: var(--danger);
+        }
+
+        .admin-btn.danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .admin-btn.secondary {
+            background-color: var(--secondary);
+        }
+
+        .admin-btn.secondary:hover {
+            background-color: #388e3c;
+        }
+
+        /* Auth Modals */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .auth-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .auth-modal.open .auth-card {
+            transform: translateY(0);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--background);
+            color: var(--text);
+            margin-bottom: 15px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .auth-form button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .auth-divider::before, .auth-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background-color: var(--border);
+        }
+
+        .auth-divider::before {
+            left: 0;
+        }
+
+        .auth-divider::after {
+            right: 0;
+        }
+
+        .oauth-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .oauth-btn:hover {
+            background-color: var(--background);
+        }
+
+        /* Media Modal */
+        .media-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .media-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .media-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .media-modal-content img, .media-modal-content video {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* Role-specific elements */
+        [data-role="normal"] {
+            display: none;
+        }
+
+        [data-role="admin"] {
+            display: none;
+        }
+
+        [data-role="main-admin"] {
+            display: none;
+        }
+
+        .show-for-normal {
+            display: block;
+        }
+
+        .show-for-admin {
+            display: block;
+        }
+
+        .show-for-main-admin {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .marketplace-sidebar {
+                display: none;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                justify-content: center;
+            }
+            
+            .feed {
+                max-width: 100%;
+            }
+            
+            .search-bar {
+                flex: 0 1 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                flex: 1 0 100%;
+                margin: 10px 0 0 0;
+            }
+            
+            .admin-panel {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, var(--border) 25%, var(--background) 50%, var(--border) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .skeleton-text {
+            height: 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-text.short {
+            width: 60%;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Like animation */
+        @keyframes likeAnimation {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(0.9); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .like-animation {
+            animation: likeAnimation 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Chakkavaripalem<span>.in</span></div>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search users, posts, events, products...">
+            </div>
+            
+            <div class="nav-icons">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="#">
+                    <i class="fas fa-compass"></i>
+                </a>
+                <button id="notificationsBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button id="messagesBtn">
+                    <i class="fas fa-envelope"></i>
+                    <span class="notification-badge">5</span>
+                </button>
+                <button id="profileBtn">
+                    <img src="https://i.pravatar.cc/150?img=8" alt="User" class="user-avatar">
+                </button>
+                <button id="adminPanelBtn" data-role="admin">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button id="adminPanelBtn" data-role="main-admin">
+                    <i class="fas fa-crown"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section user-profile-card">
+                <img src="https://i.pravatar.cc/150?img=8" alt="User" class="user-avatar-large">
+                <h3 class="user-name">Rajesh Kumar</h3>
+                <span class="user-role" id="userRole">Normal User</span>
+                <p>Chakkavaripalem, Andhra Pradesh</p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">142</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1.2K</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">560</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-calendar-alt"></i> Upcoming Events</h3>
+                
+                <div class="event-highlight">
+                    <div class="event-date">
+                        <div class="day">15</div>
+                        <div class="month">Sep</div>
+                    </div>
+                    <div class="event-info">
+                        <h4>Vinayaka Chaturthi</h4>
+                        <p>Ganesh Festival Celebrations</p>
+                    </div>
+                </div>
+                
+                <div class="event-highlight">
+                    <div class="event-date">
+                        <div class="day">22</div>
+                        <div class="month">Oct</div>
+                    </div>
+                    <div class="event-info">
+                        <h4>Tirunala Jatara</h4>
+                        <p>Village Temple Festival</p>
+                    </div>
+                </div>
+                
+                <div class="event-highlight">
+                    <div class="event-date">
+                        <div class="day">12</div>
+                        <div class="month">Nov</div>
+                    </div>
+                    <div class="event-info">
+                        <h4>Harvest Festival</h4>
+                        <p>Farmers Celebration</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                <ul class="nav-links">
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Feed</a></li>
+                    <li><a href="#"><i class="fas fa-store"></i> Marketplace</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-day"></i> Events</a></li>
+                    <li><a href="#"><i class="fas fa-images"></i> Media Gallery</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Village Groups</a></li>
+                    <li><a href="#"><i class="fas fa-save"></i> Saved Posts <span class="badge">12</span></a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Feed -->
+        <main class="feed">
+            <!-- Create Post Card -->
+            <div class="create-post-card">
+                <div class="create-post-header">
+                    <img src="https://i.pravatar.cc/150?img=8" alt="User" class="user-avatar">
+                    <input type="text" placeholder="What's happening in the village?">
+                </div>
+                <div class="create-post-actions">
+                    <button class="action-button">
+                        <i class="fas fa-image" style="color: #4CAF50;"></i> Photo/Video
+                    </button>
+                    <button class="action-button">
+                        <i class="fas fa-calendar" style="color: #FF9800;"></i> Event
+                    </button>
+                    <button class="action-button">
+                        <i class="fas fa-shopping-bag" style="color: #8a2be2;"></i> Sell Item
+                    </button>
+                    <button class="action-button" style="color: var(--primary); font-weight: 600;">
+                        Post
+                    </button>
+                </div>
+            </div>
+
+            <!-- Post 1: Regular Post -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-user">
+                        <img src="https://i.pravatar.cc/150?img=12" alt="User" class="user-avatar">
+                        <div class="post-user-info">
+                            <h4>Priya Reddy <span class="post-type-badge">Village Post</span></h4>
+                            <p>2 hours ago • <i class="fas fa-globe-asia"></i></p>
+                        </div>
+                    </div>
+                    <div class="post-options">
+                        <button class="post-options-btn"><i class="fas fa-ellipsis-h"></i></button>
+                        <div class="post-options-menu">
+                            <button><i class="far fa-bookmark"></i> Save Post</button>
+                            <button><i class="fas fa-ban"></i> Hide Post</button>
+                            <button class="delete" data-role="admin"><i class="fas fa-trash"></i> Delete Post</button>
+                            <button class="delete" data-role="main-admin"><i class="fas fa-trash"></i> Delete Post</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post-caption">
+                    <p>Beautiful sunset at our village lake today! 🌅 #Chakkavaripalem #VillageLife #Sunset</p>
+                </div>
+                
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Sunset" class="post-media">
+                
+                <div class="post-actions">
+                    <div class="post-actions-left">
+                        <button class="like-btn"><i class="far fa-heart"></i></button>
+                        <button><i class="far fa-comment"></i></button>
+                        <button><i class="far fa-paper-plane"></i></button>
+                    </div>
+                    <button class="save-btn"><i class="far fa-bookmark"></i></button>
+                </div>
+                
+                <div class="post-stats">
+                    <p><strong>245 likes</strong> • <strong>42 comments</strong></p>
+                </div>
+                
+                <div class="post-comments">
+                    <div class="comment">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="User" class="comment-avatar">
+                        <div class="comment-content">
+                            <div class="comment-header">
+                                <h5>Suresh Babu</h5>
+                                <span>1 hour ago</span>
+                            </div>
+                            <p class="comment-text">Beautiful capture! The lake looks so peaceful.</p>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <img src="https://i.pravatar.cc/150?img=9" alt="User" class="comment-avatar">
+                        <div class="comment-content">
+                            <div class="comment-header">
+                                <h5>Lakshmi Devi</h5>
+                                <span>45 minutes ago</span>
+                            </div>
+                            <p class="comment-text">Our village is truly blessed with natural beauty ❤️</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-comment">
+                    <input type="text" placeholder="Add a comment...">
+                    <button>Post</button>
+                </div>
+            </div>
+
+            <!-- Post 2: Marketplace Post -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-user">
+                        <img src="https://i.pravatar.cc/150?img=15" alt="User" class="user-avatar">
+                        <div class="post-user-info">
+                            <h4>Ramesh Farmer <span class="post-type-badge marketplace-badge">Marketplace</span></h4>
+                            <p>5 hours ago • <i class="fas fa-tag"></i> For Sale</p>
+                        </div>
+                    </div>
+                    <div class="post-options">
+                        <button class="post-options-btn"><i class="fas fa-ellipsis-h"></i></button>
+                        <div class="post-options-menu">
+                            <button><i class="far fa-bookmark"></i> Save Post</button>
+                            <button><i class="fas fa-ban"></i> Hide Post</button>
+                            <button class="delete" data-role="admin"><i class="fas fa-trash"></i> Delete Post</button>
+                            <button class="delete" data-role="main-admin"><i class="fas fa-trash"></i> Delete Post</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post-caption">
+                    <p>Fresh organic tomatoes from my farm! Harvested today morning. ₹40 per kg. Available: 50 kg. #FarmFresh #Organic #Tomatoes #ChakkavaripalemFarmers</p>
+                </div>
+                
+                <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Tomatoes" class="post-media">
+                
+                <div class="post-actions">
+                    <div class="post-actions-left">
+                        <button class="like-btn"><i class="far fa-heart"></i></button>
+                        <button><i class="far fa-comment"></i></button>
+                        <button><i class="far fa-paper-plane"></i></button>
+                    </div>
+                    <button class="save-btn"><i class="far fa-bookmark"></i></button>
+                </div>
+                
+                <div class="post-stats">
+                    <p><strong>89 likes</strong> • <strong>18 comments</strong></p>
+                </div>
+                
+                <div class="add-comment">
+                    <input type="text" placeholder="Add a comment...">
+                    <button>Post</button>
+                </div>
+            </div>
+
+            <!-- Post 3: Event Post -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-user">
+                        <img src="https://i.pravatar.cc/150?img=20" alt="User" class="user-avatar">
+                        <div class="post-user-info">
+                            <h4>Village Committee <span class="post-type-badge event-badge">Event</span></h4>
+                            <p>1 day ago • <i class="fas fa-calendar-check"></i> Pinned by Admin</p>
+                        </div>
+                    </div>
+                    <div class="post-options">
+                        <button class="post-options-btn"><i class="fas fa-ellipsis-h"></i></button>
+                        <div class="post-options-menu">
+                            <button><i class="far fa-bookmark"></i> Save Post</button>
+                            <button><i class="fas fa-ban"></i> Hide Post</button>
+                            <button data-role="admin"><i class="fas fa-thumbtack"></i> Pin/Unpin</button>
+                            <button class="delete" data-role="admin"><i class="fas fa-trash"></i> Delete Post</button>
+                            <button class="delete" data-role="main-admin"><i class="fas fa-trash"></i> Delete Post</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post-caption">
+                    <h3>🎉 Vinayaka Chaturthi Celebrations 🎉</h3>
+                    <p>Join us for the grand Ganesh Festival celebrations from September 15th to 19th. Daily cultural programs, prasadam distribution, and immersion procession on the final day. All villagers are invited! #VinayakaChaturthi #ChakkavaripalemFestivals #GaneshFestival</p>
+                    <p><strong>Date:</strong> September 15-19, 2023</p>
+                    <p><strong>Venue:</strong> Village Temple Grounds</p>
+                </div>
+                
+                <img src="https://images.unsplash.com/photo-1591485423007-765bde4139ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Ganesh Festival" class="post-media">
+                
+                <div class="post-actions">
+                    <div class="post-actions-left">
+                        <button class="like-btn"><i class="far fa-heart"></i></button>
+                        <button><i class="far fa-comment"></i></button>
+                        <button><i class="far fa-paper-plane"></i></button>
+                    </div>
+                    <button class="save-btn"><i class="far fa-bookmark"></i></button>
+                </div>
+                
+                <div class="post-stats">
+                    <p><strong>312 likes</strong> • <strong>67 comments</strong></p>
+                </div>
+                
+                <div class="add-comment">
+                    <input type="text" placeholder="Add a comment...">
+                    <button>Post</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Marketplace Sidebar -->
+        <aside class="marketplace-sidebar">
+            <div class="sidebar-section">
+                <div class="section-title">
+                    <h2><i class="fas fa-store"></i> Village Marketplace</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                
+                <div class="marketplace-filters">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Crops</button>
+                    <button class="filter-btn">Seeds</button>
+                    <button class="filter-btn">Fertilizers</button>
+                    <button class="filter-btn">Tools</button>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Rice" class="product-image">
+                    <div class="product-info">
+                        <h4>Organic Rice</h4>
+                        <p class="product-category">Crops • Sona Masoori</p>
+                        <div class="product-price">₹65 /kg</div>
+                        <div class="product-quantity">
+                            <div class="quantity-bar">
+                                <div class="quantity-fill" style="width: 70%;"></div>
+                            </div>
+                            <div class="quantity-text">
+                                <span>Available: 200 kg</span>
+                                <span>Sold: 80 kg</span>
+                            </div>
+                        </div>
+                        <div class="product-seller">
+                            <div class="seller-info">
+                                <img src="https://i.pravatar.cc/150?img=30" alt="Seller" class="seller-avatar">
+                                <span class="seller-name">Venkat Reddy</span>
+                            </div>
+                            <button class="contact-btn">Contact</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mangoes" class="product-image">
+                    <div class="product-info">
+                        <h4>Fresh Mangoes</h4>
+                        <p class="product-category">Fruits • Banganapalli</p>
+                        <div class="product-price">₹120 /kg</div>
+                        <div class="product-quantity">
+                            <div class="quantity-bar">
+                                <div class="quantity-fill" style="width: 40%;"></div>
+                            </div>
+                            <div class="quantity-text">
+                                <span>Available: 60 kg</span>
+                                <span>Sold: 90 kg</span>
+                            </div>
+                        </div>
+                        <div class="product-seller">
+                            <div class="seller-info">
+                                <img src="https://i.pravatar.cc/150?img=25" alt="Seller" class="seller-avatar">
+                                <span class="seller-name">Gopal Rao</span>
+                            </div>
+                            <button class="contact-btn">Contact</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1582515073490-39981397c445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fertilizer" class="product-image">
+                    <div class="product-info">
+                        <h4>Organic Fertilizer</h4>
+                        <p class="product-category">Fertilizers • 10kg bag</p>
+                        <div class="product-price">₹350 /bag</div>
+                        <div class="product-quantity">
+                            <div class="quantity-bar">
+                                <div class="quantity-fill" style="width: 25%;"></div>
+                            </div>
+                            <div class="quantity-text">
+                                <span>Available: 15 bags</span>
+                                <span>Sold: 45 bags</span>
+                            </div>
+                        </div>
+                        <div class="product-seller">
+                            <div class="seller-info">
+                                <img src="https://i.pravatar.cc/150?img=17" alt="Seller" class="seller-avatar">
+                                <span class="seller-name">Agro Center</span>
+                            </div>
+                            <button class="contact-btn">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="section-title">
+                    <h2><i class="fas fa-fire"></i> Trending Events</h2>
+                </div>
+                
+                <div class="event-highlight" style="background-color: rgba(138, 43, 226, 0.1); border-left-color: var(--primary);">
+                    <div class="event-date" style="background-color: var(--primary);">
+                        <div class="day">19</div>
+                        <div class="month">Sep</div>
+                    </div>
+                    <div class="event-info">
+                        <h4>Ganesh Immersion</h4>
+                        <p>Procession at 4 PM</p>
+                    </div>
+                </div>
+                
+                <div class="event-highlight" style="background-color: rgba(76, 175, 80, 0.1); border-left-color: var(--secondary);">
+                    <div class="event-date" style="background-color: var(--secondary);">
+                        <div class="day">25</div>
+                        <div class="month">Sep</div>
+                    </div>
+                    <div class="event-info">
+                        <h4>Farmers Meet</h4>
+                        <p>New farming techniques</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab" id="fabBtn">
+        <i class="fas fa-plus"></i>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2><i class="fas fa-crown"></i> Admin Dashboard</h2>
+            <button id="closeAdminPanel"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="admin-section">
+            <h3><i class="fas fa-edit"></i> Edit Content</h3>
+            <input type="text" class="admin-input" placeholder="Edit event title...">
+            <input type="text" class="admin-input" placeholder="Edit crop names...">
+            <input type="text" class="admin-input" placeholder="Edit section names...">
+            <button class="admin-btn">Save Changes</button>
+        </div>
+        
+        <div class="admin-section">
+            <h3><i class="fas fa-users-cog"></i> User Management</h3>
+            <input type="text" class="admin-input" placeholder="Search user...">
+            <button class="admin-btn">View All Users</button>
+            <button class="admin-btn secondary" data-role="main-admin">Add New Admin</button>
+            <button class="admin-btn danger" data-role="main-admin">Delete User Account</button>
+        </div>
+        
+        <div class="admin-section">
+            <h3><i class="fas fa-clipboard-list"></i> Content Moderation</h3>
+            <button class="admin-btn">Review Reported Posts</button>
+            <button class="admin-btn">Manage Events</button>
+            <button class="admin-btn">Manage Marketplace</button>
+            <button class="admin-btn danger" data-role="admin">Delete Post</button>
+            <button class="admin-btn danger" data-role="main-admin">Delete Any Content</button>
+        </div>
+        
+        <div class="admin-section">
+            <h3><i class="fas fa-chart-line"></i> Analytics</h3>
+            <button class="admin-btn">View Platform Stats</button>
+            <button class="admin-btn">Event Participation</button>
+            <button class="admin-btn">Marketplace Sales</button>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="user">User Login</button>
+                <button class="auth-tab" data-tab="admin">Admin Login</button>
+            </div>
+            
+            <div class="auth-content">
+                <!-- User Login Form -->
+                <form class="auth-form" id="userLoginForm" style="display: block;">
+                    <h3>Login with Mobile Number</h3>
+                    <input type="tel" placeholder="Mobile Number" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                    <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+                        <a href="#" style="color: var(--primary);">Forgot password?</a>
+                    </p>
+                </form>
+                
+                <!-- Admin Login Form -->
+                <form class="auth-form" id="adminLoginForm" style="display: none;">
+                    <h3>Admin Login</h3>
+                    <div class="auth-divider">Sign in with</div>
+                    <button class="oauth-btn">
+                        <i class="fab fa-google" style="color: #DB4437;"></i> Gmail
+                    </button>
+                    <div class="auth-divider">or</div>
+                    <input type="email" placeholder="Admin Email" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit">Login as Admin</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Media Modal -->
+    <div class="media-modal" id="mediaModal">
+        <div class="media-modal-content">
+            <button class="close-modal" id="closeMediaModal">&times;</button>
+            <img id="modalImage" src="" alt="Expanded view">
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const adminPanelBtn = document.getElementById('adminPanelBtn');
+        const adminPanel = document.getElementById('adminPanel');
+        const closeAdminPanel = document.getElementById('closeAdminPanel');
+        const authModal = document.getElementById('authModal');
+        const mediaModal = document.getElementById('mediaModal');
+        const closeMediaModal = document.getElementById('closeMediaModal');
+        const postOptionsBtns = document.querySelectorAll('.post-options-btn');
+        const likeBtns = document.querySelectorAll('.like-btn');
+        const saveBtns = document.querySelectorAll('.save-btn');
+        const userRole = document.getElementById('userRole');
+        const fabBtn = document.getElementById('fabBtn');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const userLoginForm = document.getElementById('userLoginForm');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const postMediaElements = document.querySelectorAll('.post-media');
+        
+        // Current user role (for demo purposes)
+        let currentRole = 'normal'; // Change to 'admin' or 'main-admin' to see different UI
+        
+        // Initialize based on role
+        function setUserRole(role) {
+            currentRole = role;
+            userRole.textContent = role === 'normal' ? 'Normal User' : 
+                                  role === 'admin' ? 'Admin' : 'Main Admin (MFW)';
+            
+            // Show/hide elements based on role
+            document.querySelectorAll('[data-role]').forEach(el => {
+                const requiredRole = el.getAttribute('data-role');
+                if (requiredRole === role) {
+                    el.style.display = el.tagName === 'BUTTON' ? 'inline-block' : 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            
+            // Update admin panel button visibility
+            const adminBtns = document.querySelectorAll('#adminPanelBtn');
+            adminBtns.forEach(btn => {
+                if (btn.getAttribute('data-role') === role) {
+                    btn.style.display = 'inline-block';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+        }
+        
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.body.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        // Admin Panel Toggle
+        adminPanelBtn?.addEventListener('click', () => {
+            adminPanel.classList.add('open');
+        });
+        
+        closeAdminPanel.addEventListener('click', () => {
+            adminPanel.classList.remove('open');
+        });
+        
+        // Post Options Menu
+        postOptionsBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const menu = btn.nextElementSibling;
+                menu.classList.toggle('show');
+            });
+        });
+        
+        // Close menus when clicking elsewhere
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.post-options-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        });
+        
+        // Like Button Animation
+        likeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas', 'liked');
+                    this.classList.add('like-animation');
+                    
+                    // Remove animation class after animation completes
+                    setTimeout(() => {
+                        this.classList.remove('like-animation');
+                    }, 500);
+                } else {
+                    icon.classList.remove('fas', 'liked');
+                    icon.classList.add('far');
+                }
+            });
+        });
+        
+        // Save Button Toggle
+        saveBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas', 'saved');
+                } else {
+                    icon.classList.remove('fas', 'saved');
+                    icon.classList.add('far');
+                }
+            });
+        });
+        
+        // FAB Button Action
+        fabBtn.addEventListener('click', () => {
+            alert('Add new post, event, or marketplace item!');
+        });
+        
+        // Auth Tabs
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show correct form
+                if (tabName === 'user') {
+                    userLoginForm.style.display = 'block';
+                    adminLoginForm.style.display = 'none';
+                } else {
+                    userLoginForm.style.display = 'none';
+                    adminLoginForm.style.display = 'block';
+                }
+            });
+        });
+        
+        // Media Modal
+        postMediaElements.forEach(media => {
+            media.addEventListener('click', () => {
+                const src = media.getAttribute('src');
+                document.getElementById('modalImage').setAttribute('src', src);
+                mediaModal.classList.add('open');
+            });
+        });
+        
+        closeMediaModal.addEventListener('click', () => {
+            mediaModal.classList.remove('open');
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.classList.remove('open');
+            }
+            if (e.target === mediaModal) {
+                mediaModal.classList.remove('open');
+            }
+            if (e.target === adminPanel) {
+                adminPanel.classList.remove('open');
+            }
+        });
+        
+        // Role switching for demo (can be removed in production)
+        document.addEventListener('keydown', (e) => {
+            // Secret keys to switch roles for demo
+            if (e.altKey) {
+                switch(e.key) {
+                    case '1': setUserRole('normal'); break;
+                    case '2': setUserRole('admin'); break;
+                    case '3': setUserRole('main-admin'); break;
+                }
+            }
+        });
+        
+        // Filter buttons in marketplace
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Initialize
+        setUserRole(currentRole);
+        
+        // Skeleton loading simulation
+        window.addEventListener('load', () => {
+            // Simulate loading delay
+            setTimeout(() => {
+                document.body.style.opacity = 1;
+            }, 300);
+        });
+        
+        // Demo notification
+        setTimeout(() => {
+            const notificationBadge = document.querySelector('.notification-badge');
+            if (notificationBadge) {
+                notificationBadge.textContent = parseInt(notificationBadge.textContent) + 1;
+            }
+        }, 5000);
+        
+        // Add subtle animations to cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all post cards
+        document.querySelectorAll('.post-card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
